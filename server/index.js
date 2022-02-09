@@ -4,6 +4,7 @@ const path = require('path');
 const express = require("express");
 const cors = require('cors');
 const PORT = process.env.PORT || 5000;
+const FIREBASE = require('./firebase-info'); 
 
 const app = express();
 
@@ -26,14 +27,7 @@ const firestore = require("firebase/firestore");
 const fireauth = require("firebase/auth");
 
 // Your web app's Firebase configuration
-const firebaseApp = firebase.initializeApp({
-    apiKey: "AIzaSyB1Q5uJDm7DM0q2WIFkPmyj0wjlqdkWPgc",
-    authDomain: "study-buddy-63dfc.firebaseapp.com",
-    projectId: "study-buddy-63dfc",
-    storageBucket: "study-buddy-63dfc.appspot.com",
-    messagingSenderId: "507104695623",
-    appId: "1:507104695623:web:d45fec11754265c0816862"
-  });
+const firebaseApp = firebase.initializeApp(FIREBASE);  
 
 const db = firestore.getFirestore();
 
