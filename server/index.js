@@ -35,14 +35,9 @@ app.use(express.json());
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-// All other GET requests not handled before will return our React app
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/public', 'index.html'));
-});
-
 /*** USER AUTHENTICATION ***/
 // Signup
-app.post("/signup", (req, res) => {
+app.post("/api/signup", (req, res) => {
     createUserWithEmailAndPassword(auth, req.body.email, req.body.password)
     .then(userCredential => {
         // Signed in
@@ -56,7 +51,7 @@ app.post("/signup", (req, res) => {
 })
 
 // Signin
-app.post("/signin", (req, res) => {
+app.post("/api/signin", (req, res) => {
     signInWithEmailAndPassword(auth, req.body.email, req.body.password)
     .then(userCredential => {
         const user = userCredential.user;
@@ -69,7 +64,7 @@ app.post("/signin", (req, res) => {
 })
 
 // Check if user is signed in
-app.get("/user", (req, res) => {
+app.get("/api/user", (req, res) => {
     const user = auth.currentUser;
     if (user) {
         res.status(200).send({user: true})
@@ -77,6 +72,11 @@ app.get("/user", (req, res) => {
         res.status(200).send({user:false});
     }
 })
+
+// All other GET requests not handled before will return our React app
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/public', 'index.html'));
+});
 
 // Application listens on the set port
 app.listen(PORT, () => {

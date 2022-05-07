@@ -7,21 +7,22 @@ function HomePage() {
   const [signedIn, setSignedIn] = useState(true);
 
   useEffect (() => {
-    axios.get("http://localhost:3001/user")
+    axios.get("/api/user")
     .then(res => {
-      console.log(res.data);
+      console.log("Response:", res.data);
       if (!res.data.user) {
         setSignedIn(false);
         navigate("/signin");
       }
     }).catch(error => {console.log(error)})
   }, [])
+  
 
-  if(signedIn) {
+  // if(signedIn) {
     return (
       <div>HomePage</div>
     )
-  }
+  // }
 }
 
 export default HomePage

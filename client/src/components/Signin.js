@@ -34,7 +34,7 @@ function Signin() {
       setError("Passwords don't match")
     } else {
       setError("");
-      axios.post("/signup", {
+      axios.post("/api/signup", {
         email: email,
         password: password
       })
@@ -61,7 +61,7 @@ function Signin() {
       setError("Password has to be at least 8 characters");
     } else {
       setError("");
-      axios.post("/signin", {
+      axios.post("/api/signin", {
         email: email,
         password: password
       })
