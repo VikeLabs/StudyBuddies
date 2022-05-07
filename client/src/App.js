@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import Signin from "./components/Signin";
+import UserProfile from "./components/UserProfile";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<HomePage/>}/>
         <Route path="/signin" element={<Signin/>}/>
+        <Route path="user-profile" element={<UserProfile/>}/>
       </Routes>
     </Router>
   );

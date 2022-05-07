@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useNavigate} from "react-router-dom";
 
 function Signin() {
@@ -8,7 +8,19 @@ function Signin() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [signedIn, setSignedIn] = useState(false);
   const navigate = useNavigate();
+
+  useEffect (() => {
+    axios.get("/api/user")
+    .then(res => {
+      console.log("Response:", res.data);
+      if (res.data.user) {
+        setSignedIn(true);
+        navigate("/");
+      }
+    }).catch(error => {console.log(error)})
+  }, [])
 
   const onEmailChange = e => {
     setEmail(e.target.value);
@@ -78,10 +90,10 @@ function Signin() {
     }
   }
 
-  if (signInProcess) {
+  if (signInProcess && !signedIn) {
     return (
       <div className='w-screen h-screen bg-slate-200 text-center'>
-          <h1 className="text-3xl lg:text-5xl font-bold pt-72">Let's find youthe perfect study buddy</h1>
+          <h1 className="text-3xl lg:text-5xl font-bold pt-72">Let's find you the perfect study buddy</h1>
           <form className="w-10/12 md:w-7/12 lg:w-6/12 xl:w-1/3 mx-auto bg-white mt-8 rounded-md shadow-slate-500 shadow-md" onSubmit={signIn}>
               {error !== "" ? (<p className="w-[92%] mx-auto font-normal text-2xl pt-6 text-red-500">{error}</p>) : (<div></div>)}
               <input className='w-[92%] mx-auto mt-6 px-6 py-3 rounded-md border-2 border-slate-500 text-xl bg-blue-100' type="email" value={email} placeholder='Email' onChange={onEmailChange}></input>
@@ -91,10 +103,10 @@ function Signin() {
           </form>
       </div>
     )
-  } else {
+  } else if (!signInProcess && !signedIn) {
     return (
       <div className='w-screen h-screen bg-slate-200 text-center'>
-          <h1 className="text-3xl lg:text-5xl font-bold pt-72">Let's find youthe perfect study buddy</h1>
+          <h1 className="text-3xl lg:text-5xl font-bold pt-72">Let's find you the perfect study buddy</h1>
           <form className="w-10/12 md:w-7/12 lg:w-6/12 xl:w-1/3 mx-auto bg-white mt-8 rounded-md shadow-slate-500 shadow-md" onSubmit={signUp}>
               {error !== "" ? (<p className="w-[92%] mx-auto font-normal text-2xl pt-6 text-red-500">{error}</p>) : (<div></div>)}
               <input className='w-[92%] mx-auto mt-6 px-6 py-3 rounded-md border-2 border-slate-500 text-xl bg-blue-100' type="email" value={email} placeholder='Email' onChange={onEmailChange}></input>
