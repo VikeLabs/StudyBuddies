@@ -1,11 +1,13 @@
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
 import {useNavigate} from "react-router-dom";
+import NavBar from './NavBar';
 
 function HomePage() {
   const navigate = useNavigate();
   const [signedIn, setSignedIn] = useState(true);
 
+  // Check if user is signed in
   useEffect (() => {
     axios.get("/api/user")
     .then(res => {
@@ -20,7 +22,10 @@ function HomePage() {
 
   // if(signedIn) {
     return (
-      <div>HomePage</div>
+      <div>
+        <NavBar/>
+        HomePage
+      </div>
     )
   // }
 }

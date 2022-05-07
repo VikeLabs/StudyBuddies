@@ -6,7 +6,7 @@ require('dotenv').config()
 
 // Imports for Firebase
 const {initializeApp} = require("firebase/app");
-const {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} = require("firebase/auth");
+const {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} = require("firebase/auth");
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -61,6 +61,15 @@ app.post("/api/signin", (req, res) => {
     .catch(error => {
         res.status(200).send({signedIn: false})
     })
+})
+
+// Signout
+app.get("/api/signout", (req, res) => {
+    signOut(auth).then(() => {
+        res.status(200).send({msg: "Signed out successfully"})
+      }).catch((error) => {
+        res.status(400).send({msg: "Failed to sign out"})
+      });
 })
 
 // Check if user is signed in
