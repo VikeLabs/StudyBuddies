@@ -1,12 +1,21 @@
+import React from "react";
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
+import HomePage from "./components/HomePage";
+import Signin from "./components/Signin";
 
 function App() {
   return (
-    <div className="App">
-      <h1 className="text-3xl font-bold underline">
-      Study Buddy
-    </h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<HomePage/>}/>
+        <Route path="/signin" element={<Signin/>}/>
+      </Routes>
+    </Router>
   );
 }
 

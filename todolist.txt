@@ -1,0 +1,5 @@
+1. Authentication system
+2. User profile builder
+3. Main page: other user profiles viewing
+4. Requests page: User see other users' request to study with them
+5. Accepted requests: Users can chat, make group chat to make study plans
