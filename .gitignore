@@ -1,2 +1,6 @@
+# Ignore for server
 /node_modules
 .env
+
+# Ignore for client
+/client/.env

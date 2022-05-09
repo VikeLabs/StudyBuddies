@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, {useEffect, useState} from 'react'
 import {useNavigate} from "react-router-dom";
 import NavBar from './NavBar';
+import Signin from './Signin';
 
 function HomePage() {
   const navigate = useNavigate();
@@ -20,14 +21,14 @@ function HomePage() {
   }, [])
   
 
-  // if(signedIn) {
+  if(signedIn) {
     return (
       <div>
-        <NavBar/>
+        <NavBar active="home"/>
         HomePage
       </div>
     )
-  // }
+  }
 }
 
 export default HomePage

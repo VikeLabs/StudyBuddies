@@ -7,6 +7,7 @@ require('dotenv').config()
 // Imports for Firebase
 const {initializeApp} = require("firebase/app");
 const {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} = require("firebase/auth");
+const {getFirestore, doc, setDoc, getDoc} = require("firebase/firestore");
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -21,6 +22,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth();
+const db = getFirestore();
+
 let userId = "";
 
 const PORT = process.env.PORT || 3001;
@@ -79,6 +82,35 @@ app.get("/api/user", (req, res) => {
         res.status(200).send({user: true})
     } else {
         res.status(200).send({user:false});
+    }
+})
+
+// Upload user profile to firebase database
+app.post("/api/user-profile", async (req, res) => {
+    const docRef = doc(db, "user-profile", userId);
+    try {
+        await setDoc(docRef, req.body);
+        res.status(200).send({success: true});
+    } catch (e) {
+        console.log(e);
+        res.status(200).send({success: false});
+    }
+    
+})
+
+// Read an user profile
+app.get("/api/user-profile", async(req, res) => {
+    const owner = req.query.owner;
+    if (owner) {
+        const profileRef = doc(db, "user-profile", userId);
+        const profileSnap = await getDoc(profileRef);
+        if (profileSnap.exists()) {
+            res.status(200).send({profile: profileSnap.data()});
+        } else {
+            res.status(200).send({profile: null});
+        }
+    } else {
+        console.log("Retrieving other user profile");
     }
 })
 

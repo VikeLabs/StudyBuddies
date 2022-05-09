@@ -6,6 +6,11 @@
 - Department: Major, minor
 - Courses taking this semester
 - Description of studying style/need
-3. Main page: other user profiles viewing
+3. Main page: other user profiles viewing/  other users' posts viewing
 4. Requests page: User see other users' request to study with them
 5. Accepted requests: Users can chat, make group chat to make study plans
+
+Ongoing:
+- Edit button for view profile page
+- Make view profile page responsive
+- Post adding functionality
