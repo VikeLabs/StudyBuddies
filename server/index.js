@@ -7,7 +7,7 @@ require('dotenv').config()
 // Imports for Firebase
 const {initializeApp} = require("firebase/app");
 const {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} = require("firebase/auth");
-const {getFirestore, doc, setDoc, getDoc} = require("firebase/firestore");
+const {getFirestore, doc, setDoc, getDoc, getDocs, collection} = require("firebase/firestore");
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -112,6 +112,44 @@ app.get("/api/user-profile", async(req, res) => {
     } else {
         console.log("Retrieving other user profile");
     }
+})
+
+// Allow users to add posts
+app.post("/api/add-post", async(req, res) => {
+    const newPost = {
+        user: userId,
+        need: req.body.need,
+        deadline: req.body.deadline,
+        description: req.body.description
+    }
+    const allPostsRef = doc(db, "post", "allPosts");
+    const allPostsSnap = await getDoc(allPostsRef);
+    let allPostsList = [];
+    if (allPostsSnap.exists()) {
+        allPostsList = allPostsSnap.data().posts;
+    }
+    allPostsList.push(newPost);
+    try {
+        await setDoc(allPostsRef, {posts: allPostsList});
+        res.status(200).send({success:true});
+    } catch (error) {
+        res.status(200).send({success: false});
+    }
+    
+})
+
+// Get all other users information
+app.get("/api/other-users", async(req, res) => {
+    const usersSnapshot = await getDocs(collection(db, "user-profile"));
+    const users = [];
+    usersSnapshot.forEach(user => {
+        console.log(user.id);
+        if (user.id != userId) {
+            users.push(user.data());
+        }
+    })
+    console.log(users);
+    res.status(200).send({users: users});
 })
 
 // All other GET requests not handled before will return our React app

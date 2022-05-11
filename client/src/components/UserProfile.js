@@ -25,8 +25,8 @@ function UserProfile() {
           }
         })
         .then(res => {
-          console.log("Response for user profile")
           if (res.data.profile) {
+            console.log("User profile found")
             setUserProfileFound(true);
             setUserProfile(res.data.profile);
           }
@@ -41,12 +41,19 @@ function UserProfile() {
   if (signedIn) {
     if (userProfileFound) {
       return (
-        <ViewProfile user={userProfile} owner={true}/>
+        <ViewProfile user={userProfile} owner={true} edit={() => {setUserProfileFound(false)}}/>
       )
     } else {
-      return (
-        <UserProfileBuilder/>
-      )
+      if (userProfile) {
+        return (
+          <UserProfileBuilder user={userProfile} edit={true} show={() => {setUserProfileFound(true)}}/>
+        )
+      } else {
+        return (
+          <UserProfileBuilder user={null} edit={false} show={() => {setUserProfileFound(true)}}/>
+        )
+      }
+      
     }
   }
   
