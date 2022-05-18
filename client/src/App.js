@@ -37,6 +37,7 @@ function App() {
         <Route exact path="/" element={<HomePage/>}/>
         <Route path="/signin" element={<Signin/>}/>
         <Route path="/user-profile" element={<UserProfile/>}/>
+        <Route path="/user-profile/:id" element={<UserProfile/>}/>
       </Routes>
     </Router>
   );

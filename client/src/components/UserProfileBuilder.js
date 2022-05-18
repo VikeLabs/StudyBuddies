@@ -214,8 +214,7 @@ function UserProfileBuilder({user, edit, show}) {
                         axios.post("/api/user-profile", userInformation)
                         .then(res => {
                             if(res.data.success) {
-                                show();
-                                navigate("/user-profile");
+                                window.location.reload();
                             } else {
                                 console.log("Failed to upload user profile");
                             }
@@ -242,8 +241,7 @@ function UserProfileBuilder({user, edit, show}) {
                     axios.post("/api/user-profile", userInformation)
                     .then(res => {
                         if(res.data.success) {
-                            show();
-                            navigate("/user-profile");
+                            window.location.reload();
                         } else {
                             console.log("Failed to upload user profile");
                         }
@@ -264,7 +262,7 @@ function UserProfileBuilder({user, edit, show}) {
                     axios.post("/api/user-profile", userInformation)
                     .then(res => {
                         if(res.data.success) {
-                            navigate("/user-profile");
+                            window.location.reload();
                         } else {
                             console.log("Failed to upload user profile");
                         }
@@ -432,7 +430,7 @@ function UserProfileBuilder({user, edit, show}) {
                                 <textarea className='h-40 w-full md:w-1/2 px-4 py-2 text-lg mt-4 rounded-md border border-slate-300 shadow-md shadow-slate-300' value={description} maxLength={300} placeholder="Enter description here. Don't go over 300 characters." onChange={onDescriptionChange}></textarea>
                             </div>
                             <div className="flex flex-row">
-                                <div className="rounded-sm bg-red-500 hover:bg-red-700 duration-200 px-4 py-2 text-xl lg:text-2xl text-white font-semibold mt-8 w-fit mr-4" onClick={show}>Cancel</div>
+                                <div className="rounded-sm bg-red-500 hover:bg-red-700 duration-200 px-4 py-2 text-xl lg:text-2xl text-white font-semibold mt-8 w-fit mr-4 cursor-default" onClick={show}>Cancel</div>
                                 <input type="submit" className="rounded-sm bg-red-500 hover:bg-red-700 duration-200 px-4 py-2 text-xl lg:text-2xl text-white font-semibold mt-8 w-fit" value="Submit"></input>    
                             </div>
                         

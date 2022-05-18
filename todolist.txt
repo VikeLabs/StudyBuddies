@@ -11,7 +11,5 @@
 5. Accepted requests: Users can chat, make group chat to make study plans
 
 Ongoing:
-- Make view profile page responsive
-- fix user profile behavior showing user profile builder first
-- Post adding functionality
+- Make the slider for user home page
 - Make navigation bar responsive

@@ -45,7 +45,7 @@ app.post("/api/signup", (req, res) => {
     .then(userCredential => {
         // Signed in
         const user = userCredential;
-        const userId = user.uid;
+        userId = user.uid;
         res.status(200).send({signedIn: true});
     })
     .catch(error => {
@@ -87,9 +87,19 @@ app.get("/api/user", (req, res) => {
 
 // Upload user profile to firebase database
 app.post("/api/user-profile", async (req, res) => {
+    console.log("userId for user profile: ", userId);
+    const newUserProfile = {
+        id: userId,
+        name: req.body.name,
+        profileImg: req.body.profileImg,
+        major: req.body.major,
+        minor: req.body.minor,
+        courses: req.body.courses,
+        description: req.body.description
+    }
     const docRef = doc(db, "user-profile", userId);
     try {
-        await setDoc(docRef, req.body);
+        await setDoc(docRef, newUserProfile);
         res.status(200).send({success: true});
     } catch (e) {
         console.log(e);
@@ -98,7 +108,7 @@ app.post("/api/user-profile", async (req, res) => {
     
 })
 
-// Read an user profile
+// Read main user's profile
 app.get("/api/user-profile", async(req, res) => {
     const owner = req.query.owner;
     if (owner) {
@@ -111,6 +121,18 @@ app.get("/api/user-profile", async(req, res) => {
         }
     } else {
         console.log("Retrieving other user profile");
+    }
+})
+
+// Read an other user's profile
+app.get("/api/user-profile/:id", async(req, res) => {
+    const id = req.params.id;
+    const userProfileRef = doc(db, "user-profile", id);
+    const userProfileSnap = await getDoc(userProfileRef);
+    if (userProfileSnap.exists()) {
+        res.status(200).send({profile:userProfileSnap.data()})
+    } else {
+        res.status(200).send({msg: "User not found"})
     }
 })
 
@@ -143,12 +165,12 @@ app.get("/api/other-users", async(req, res) => {
     const usersSnapshot = await getDocs(collection(db, "user-profile"));
     const users = [];
     usersSnapshot.forEach(user => {
-        console.log(user.id);
+        // console.log(user.id);
         if (user.id != userId) {
             users.push(user.data());
         }
     })
-    console.log(users);
+    // console.log(users);
     res.status(200).send({users: users});
 })
 
